@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    volumes:
+      - ./:/var/www
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    command: sh -c "php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"
+    environment:
+      SERVICE_ROLE: app
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+      QUEUE_CONNECTION: database
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-worker
+    command: php artisan queue:work --sleep=3 --tries=3
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    environment:
+      SERVICE_ROLE: worker
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: secret
+      QUEUE_CONNECTION: database
+
+  db:
+    image: mysql:8
+    container_name: laravel-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - 3306:3306
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:

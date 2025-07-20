@@ -15,6 +15,15 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        JobProcessing::class => [
+           LogJobProcessing::class,
+        ],
+        JobProcessed::class => [
+            LogJobProcessed::class,
+        ],
+        JobFailed::class => [
+            LogJobFailed::class,
+        ],
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],

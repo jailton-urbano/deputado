@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeputadoController;
+use App\Http\Controllers\GastoDeputadoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +22,7 @@ Route::get('/', function () {
 
 Route::get('/deputados', [DeputadoController::class, 'index'])->name('deputados.index');
 Route::get('/deputados/{id}/despesas', [GastoDeputadoController::class, 'index'])->name('despesas.index');
+Route::post('/deputados/sincronizar', [DeputadoController::class, 'sincronizar'])->name('deputados.sincronizar');
+Route::delete('/deputados/limpar', [DeputadoController::class, 'limpar'])->name('deputados.limpar');
+Route::get('/sincronismo', [\App\Http\Controllers\SincronismoController::class, 'index'])->name('sincronismo.index');
+
