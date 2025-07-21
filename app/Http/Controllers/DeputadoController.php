@@ -33,10 +33,10 @@ class DeputadoController extends Controller
     }
     public function sincronizar()
     {
-        ImportarDeputadoJob::dispatch()->onQueue('deputados');
+        ImportarDeputadoJob::dispatch();
 
-        return redirect()->route('deputados.index')
-            ->with('success', 'Sincronização iniciada!');
+        return redirect()->route('deputados.index')->with('success', 'Sincronização iniciada!');
+
     }
 
     public function limpar()

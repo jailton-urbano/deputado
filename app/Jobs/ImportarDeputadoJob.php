@@ -56,7 +56,7 @@ class ImportarDeputadoJob implements ShouldQueue
 
         // Disparar os jobs de gastos depois de importar todos
         Deputado::each(function ($deputado) {
-            ProcessarGastosDeputado::dispatch($deputado)->onQueue('gastos');
+            ProcessarGastosDeputado::dispatch($deputado);
             Log::channel('deputados')->info("📤 Disparado job de gastos para deputado ID {$deputado->id}");
         });
 

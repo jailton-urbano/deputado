@@ -47,12 +47,13 @@ class ProcessarGastosDeputado implements ShouldQueue
                 GastoDeputado::updateOrCreate(
                     [
                         'deputado_id' => $this->deputado->id,
-                        'ano' => $gasto['ano'],
-                        'mes' => $gasto['mes'],
-                        'tipoDespesa' => $gasto['tipoDespesa'],
+                        'ano' => $gasto['ano'] ?? now()->year,  // <- prevenção contra null
+                        'mes' => $gasto['mes'] ?? now()->month,
+                        'tipo_despesa' => $gasto['tipoDespesa'],
                         'fornecedor' => $gasto['nomeFornecedor'],
                         'cnpj_cpf' => $gasto['cnpjCpfFornecedor'],
                         'valor' => $gasto['valorDocumento'],
+                        'data' => $gasto['dataDocumento'] ?? now()
                     ]
                 );
 

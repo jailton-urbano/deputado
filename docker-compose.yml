@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: laravel-worker
-    command: php artisan queue:work --sleep=3 --tries=3
+    command: php artisan queue:work --sleep=3 --tries=3 --queue=default
     volumes:
       - ./:/var/www
     depends_on:
